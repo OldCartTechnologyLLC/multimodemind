@@ -1,0 +1,24 @@
+{
+  // Typecheck everything, including the code that never ships.
+  //
+  // `tsconfig.json` is the build: it compiles `src/` into `dist/` and rightly
+  // ignores `tests/` and `eval/`, because neither belongs in a published
+  // package. The side effect is that the two places most likely to drift out of
+  // step with the types — the tests that pin the ranking's promises and the
+  // harness that grades it — were the only code in the repo nobody was checking.
+  // Both import from `src/`, so a signature change breaks them silently and the
+  // first sign of it is a confusing runtime failure.
+  //
+  // So this config is the same strictness pointed at the whole tree with the
+  // emit turned off. `npm run typecheck` runs it; `npm run build` does not.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false
+  },
+  "include": ["src/**/*", "tests/**/*.ts", "eval/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
