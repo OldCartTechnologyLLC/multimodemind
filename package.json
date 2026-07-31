@@ -1,6 +1,6 @@
 {
   "name": "multimodemind",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Multi-store memory layer for AI agents, exposed over MCP",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
