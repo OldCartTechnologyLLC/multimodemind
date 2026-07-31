@@ -730,7 +730,7 @@ async function prompt(question: string): Promise<string> {
 
 // ─── Main loop ────────────────────────────────────────────────────────────────
 
-async function main(): Promise<void> {
+export async function runDashboard(): Promise<void> {
   process.stdout.write(G.hideCur);
 
   const cleanup = () => {
@@ -875,13 +875,15 @@ async function main(): Promise<void> {
   }
 }
 
-// Only launch the interactive loop when run directly, not when imported for tests
+// Only launch the interactive loop when run directly (e.g. `npm run dashboard`
+// from a clone, or `node dist/cli/dashboard.js`), not when imported — the `mmind
+// dashboard` subcommand and the test suite both import this module instead.
 const invokedDirectly =
   process.argv[1] !== undefined &&
   import.meta.url === new URL(`file://${process.argv[1]}`).href;
 
 if (invokedDirectly) {
-  main().catch(err => {
+  runDashboard().catch(err => {
     process.stdout.write(G.showCur + G.reset + '\n');
     console.error(err);
     process.exit(1);

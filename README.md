@@ -50,7 +50,7 @@ Picking the best answer out of five stores is not a similarity search. A note in
 
 When two memories contradict each other, the router says so. `retrieve` returns a `conflicts` array naming the pair, the kind of disagreement (`numeric`, `temporal`, `negation`, `correction`), which one it would trust, and why, including the uncomfortable case where it kept the older memory because the newer one is agent-generated. Pass `explain: true` and every result carries its full derivation: both relevance signals, the blend, and each multiplier that scaled it.
 
-None of this is tuned by feel. `npm run eval` grades the router against a labeled corpus and the baseline ranking it replaced, and fails the build if any case regresses; `npm run eval:explain [case]` prints the arithmetic for a single query.
+None of this is tuned by feel. From a source clone, `npm run eval` grades the router against a labeled corpus and the baseline ranking it replaced, and fails the build if any case regresses; `npm run eval:explain [case]` prints the arithmetic for a single query. (These are maintainer commands run from a checkout, not part of the installed package.)
 
 ### Tuning
 
@@ -117,8 +117,10 @@ Embeddings are pluggable. With `OPENAI_API_KEY` set, Multimode Mind uses `text-e
 A built-in terminal dashboard shows store status and handles configuration interactively: paths, per-store access (`[a]`), backends (`[b]`), the retrieval weights (`[t]`), and the audit log (`[l]`):
 
 ```bash
-npm run dashboard
+mmind dashboard
 ```
+
+From a source clone you can also run `npm run dashboard`.
 
 Ranking changes are saved immediately, but the server reads them at startup, so restart it for an edit to take effect.
 

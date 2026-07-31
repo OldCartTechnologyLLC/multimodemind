@@ -174,6 +174,18 @@ function loadConfig(): MultimodeMindConfig {
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
+  // `mmind dashboard` launches the interactive TUI instead of the MCP server.
+  // This is the only invocation that diverges: every other form — including
+  // `mmind "/path/to/vault"` and the bare, no-argument stdio case — falls
+  // through to the server below untouched, so the MCP stdio protocol path is
+  // never disturbed. The dashboard is imported lazily so its store handles and
+  // readline setup are only paid for when it is actually requested.
+  if (process.argv[2] === 'dashboard') {
+    const { runDashboard } = await import('./cli/dashboard.js');
+    await runDashboard();
+    return;
+  }
+
   const config = loadConfig();
   const access = loadAccess();
   const backends = loadBackends();
